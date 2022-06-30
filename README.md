@@ -5,7 +5,7 @@
 
 # python virtual-machine setting
 1. pip install pipenv
-2. pipenv --python 3.8.12
+2. pipenv --python 3.8.12 (or 3.8.10)
 3. pipenv shell
 
 4. python -m pip install --upgrade pip
@@ -15,6 +15,5 @@
 8. python mysite/manage.py runserver 127.0.0.1:8000
 
 > purpostion
->> 우리들의 메카퍼니 프로젝트를 위하여.. >
-
-idea.. web kakao talk
+>> 우리들의 메카퍼니 프로젝트를 위하여..  
+>> 인스타 사진 추출 기능 만들기

@@ -48,11 +48,12 @@ INSTALLED_APPS = [
     'books',
     'blog',
     'post',
+    'extract',
     'rest_framework',
 ]
 
 # 2020.07.04 
-# @author eyedi
+# @author ideyedi
 # @discription DRF(django-restful-framework) setting, allow anyone
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' : [
