@@ -16,11 +16,11 @@ class DemoApi(views.APIView):
 
     # /api/extract
     # GET method test
-    def extract_insta_image(request, insta_link):
-
+    def get(self, request, insta_link):
         context = {'name': insta_link}
-        # render return value is HttpResponse
-        ret = render(request, )
 
-        return ret
+        return JsonResponse(context)
 
+
+    def post(self, request):
+        return 0
