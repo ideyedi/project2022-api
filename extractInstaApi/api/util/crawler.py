@@ -1,5 +1,6 @@
-urls.URL = 'https://www.instagram.com/p/CfVx-zFvcg7'
-class instacrawler(urls.URL):
+import requests
+
+class instacrawler():
     def __init__(self, url):
         super().__init__(url)
         self.url = url
