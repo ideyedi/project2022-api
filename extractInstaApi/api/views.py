@@ -1,10 +1,7 @@
-from django.shortcuts import render
-from django.views import View
 from django.http import HttpResponse, JsonResponse
-
 # django REST framework
 from rest_framework import views
-from rest_framework.response import Response
+from .util import crawler
 
 
 # Create your views here.
@@ -16,11 +13,12 @@ class DemoApi(views.APIView):
 
     # /api/extract
     # GET method test
-    def get(self, request, insta_link):
-        context = {'name': insta_link}
+    def get(self, request):
+        #print(help(request))
+        url = request.GET.get('insta_link', default=None)
+        print(url)
 
-        return JsonResponse(context)
-
+        return JsonResponse({'name': url})
 
     def post(self, request):
         return 0
