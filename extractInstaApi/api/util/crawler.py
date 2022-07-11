@@ -34,6 +34,7 @@ class InstaCrawler:
     def extract_image(self):
         try:
             self.drv.get(self.url)
+            time.sleep(10)
             image_list = self.drv.find_elements(By.CLASS_NAME, 'eLAPa RzuR0')
             print(len(image_list))
 
@@ -43,6 +44,27 @@ class InstaCrawler:
         finally:
             self.drv.quit()
             logging.info(f'Webdriver quit')
+
+        return 0
+
+    def login(self):
+        try:
+            test = 'https://www.instagram.com'
+            self.drv.get(test)
+            time.sleep(5)
+            print(f'test')
+
+            user_name = self.drv.find_elements(By.NAME, 'username')
+            user_name.send_keys('01046692893')
+            pw = self.drv.find_elementis(By.NAME, 'password')
+            pw.send_keys('ideyedi318!')
+
+        except Exception:
+            traceback.print_exc()
+
+        finally:
+            self.drv.quit()
+
         return 0
 
     def get_html(self):

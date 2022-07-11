@@ -18,9 +18,11 @@ class DemoApi(views.APIView):
         print(url)
 
         clr = crawler.InstaCrawler(self.test_link)
-        clr.extract_image()
 
-        return JsonResponse({'name': url})
+        clr.login()
+        #clr.extract_image()
+
+        return JsonResponse({'name': self.test_link})
 
     def post(self, request):
         return JsonResponse({'post': self.url})
