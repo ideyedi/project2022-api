@@ -1,16 +1,49 @@
-from selenium import webdriver
+#! python
+# encoding UTF-8
+import time
+import traceback
+import logging
 import requests
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 class InstaCrawler:
+    path_drv = '/usr/bin/safaridriver'
+
     def __init__(self, url):
-        super().__init__(url)
+        # 상속할 경우 중복을 줄이기 위한 방법
+        # 단 여기서는 상속하지 않기 때문에 의미없음
+        #super().__init__(url)
         self.url = url
+
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
         }
         self.session = requests.Session()
         self.session.headers = self.headers
+        self.drv = webdriver.Safari(executable_path=self.path_drv)
+        print(f'webdriver path {self.path_drv}')
+
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.INFO)
+        self.logger.info(f'crawler init (URL: {url})')
+        print(f'crawler init {url}')
+
+    def extract_image(self):
+        try:
+            self.drv.get(self.url)
+            image_list = self.drv.find_elements(By.CLASS_NAME, 'eLAPa RzuR0')
+            print(len(image_list))
+
+        except Exception:
+            traceback.print_exception()
+
+        finally:
+            self.drv.quit()
+            logging.info(f'Webdriver quit')
+        return 0
 
     def get_html(self):
         response = self.session.get(self.url)

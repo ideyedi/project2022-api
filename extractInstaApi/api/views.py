@@ -14,11 +14,14 @@ class DemoApi(views.APIView):
     # /api/extract
     # GET method test
     def get(self, request):
-        #print(help(request))
         url = request.GET.get('insta_link', default=None)
         print(url)
+
+        clr = crawler.InstaCrawler(self.test_link)
+        clr.extract_image()
 
         return JsonResponse({'name': url})
 
     def post(self, request):
-        return 0
+        return JsonResponse({'post': self.url})
+
