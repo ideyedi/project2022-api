@@ -1,5 +1,6 @@
 #! python
 # encoding UTF-8
+import os, sys
 import time
 import traceback
 import logging
@@ -10,20 +11,30 @@ from selenium.webdriver.common.by import By
 
 
 class InstaCrawler:
-    path_drv = '/usr/bin/safaridriver'
+    #path_drv = '/usr/bin/safaridriver'
+    # Safari Automation으로 인스타 접근할 경우 white blank만 출력되는 모습을 보인다.
+    # Chrome webdriver를 이용, Incognito mode를 사용하여 접근하도록 한다.
+    # util로 m1과 intel을 구분하는 기능을 추가해야겠다.
+    # 와 주석도 인공지능으로 자동으로 작성해줘? 미쳤네..
+    # 더 좋은 경로 정리 코드가 있으면 좋을듯..
+    path_drv = './api/util/chromedriver_m1'
 
     def __init__(self, url):
         # 상속할 경우 중복을 줄이기 위한 방법
         # 단 여기서는 상속하지 않기 때문에 의미없음
         #super().__init__(url)
         self.url = url
+        print(os.getcwd())
 
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
         }
         self.session = requests.Session()
         self.session.headers = self.headers
-        self.drv = webdriver.Safari(executable_path=self.path_drv)
+
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--incognito')
+        self.drv = webdriver.Chrome(executable_path=self.path_drv, options=chrome_options)
         print(f'webdriver path {self.path_drv}')
 
         self.logger = logging.getLogger()
@@ -34,15 +45,16 @@ class InstaCrawler:
     def extract_image(self):
         try:
             self.drv.get(self.url)
-            time.sleep(10)
-            image_list = self.drv.find_elements(By.CLASS_NAME, 'eLAPa RzuR0')
+            time.sleep(5)
+            #image_list = self.drv.find_elements(By.CLASS_NAME, 'eLAPa RzuR0')
+            image_list = self.drv.find_elements(By.CLASS_NAME, '_aagu _aamh')
             print(len(image_list))
 
         except Exception:
             traceback.print_exception()
 
         finally:
-            self.drv.quit()
+            #self.drv.quit()
             logging.info(f'Webdriver quit')
 
         return 0
@@ -50,9 +62,9 @@ class InstaCrawler:
     def login(self):
         try:
             test = 'https://www.instagram.com'
-            self.drv.get(test)
+            self.drv.get(self.url)
             time.sleep(5)
-            print(f'test')
+            print(f'test {self.url}')
 
             user_name = self.drv.find_elements(By.NAME, 'username')
             user_name.send_keys('01046692893')
@@ -114,3 +126,9 @@ class InstaCrawler:
     def get_raw_text(self):
         response = self.session.get(self.url)
         return response.raw.read().decode('utf-8')
+
+
+if __name__ == '__main__':
+    unittest = InstaCrawler('https://www.instagram.com/p/CfVx-zFvcg7')
+    unittest.extract_image()
+

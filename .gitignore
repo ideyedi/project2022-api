@@ -1,6 +1,8 @@
 # Pycharm IDE 환경변수
 .idea
 
+.DS_Store
+
 **/settings.json
 **/db.sqlite3
 **/*.pyc
