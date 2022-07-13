@@ -1,6 +1,6 @@
 #! python
 # encoding UTF-8
-import os, sys
+import os
 import time
 import traceback
 import logging
@@ -9,6 +9,7 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from .detect_arch import detect_machine as dm
 
 class InstaCrawler:
     #path_drv = '/usr/bin/safaridriver'
@@ -17,7 +18,14 @@ class InstaCrawler:
     # util로 m1과 intel을 구분하는 기능을 추가해야겠다.
     # 와 주석도 인공지능으로 자동으로 작성해줘? 미쳤네..
     # 더 좋은 경로 정리 코드가 있으면 좋을듯..
-    path_drv = './api/util/chromedriver_m1'
+    '''
+    True: x86
+    False: ETC
+    '''
+    if dm:
+        path_drv = './api/util/chromedriver'
+    else:
+        path_drv = './api/util/chromedriver_m1'
 
     def __init__(self, url):
         # 상속할 경우 중복을 줄이기 위한 방법
@@ -47,14 +55,14 @@ class InstaCrawler:
             self.drv.get(self.url)
             time.sleep(5)
             #image_list = self.drv.find_elements(By.CLASS_NAME, 'eLAPa RzuR0')
-            image_list = self.drv.find_elements(By.CLASS_NAME, '_aagu _aamh')
+            image_list = self.drv.find_elements(By.CLASS_NAME, '_aamh')
             print(len(image_list))
 
         except Exception:
             traceback.print_exception()
 
         finally:
-            #self.drv.quit()
+            self.drv.quit()
             logging.info(f'Webdriver quit')
 
         return 0
