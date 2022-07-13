@@ -6,6 +6,7 @@ from .util import crawler
 
 # Create your views here.
 class DemoApi(views.APIView):
+    instagram_link = 'https://www.instagram.com'
     test_link = 'https://www.instagram.com/p/CfVx-zFvcg7'
 
     def __init__(self):
@@ -14,13 +15,12 @@ class DemoApi(views.APIView):
     # /api/extract
     # APIView GET
     def get(self, request):
-        url = request.GET.get('insta_link', default=None)
-        print(url)
+        #url = request.GET.get('insta_link', default=None)
+        #print(url)
 
-        clr = crawler.InstaCrawler(self.test_link)
-
-        #clr.login()
-        clr.extract_image()
+        clr = crawler.InstaCrawler(self.instagram_link)
+        clr.login()
+        #clr.extract_image()
 
         return JsonResponse({'name': self.test_link})
 

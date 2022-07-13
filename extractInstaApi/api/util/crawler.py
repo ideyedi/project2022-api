@@ -69,15 +69,19 @@ class InstaCrawler:
 
     def login(self):
         try:
-            test = 'https://www.instagram.com'
             self.drv.get(self.url)
-            time.sleep(5)
+            time.sleep(1)
             print(f'test {self.url}')
 
             user_name = self.drv.find_elements(By.NAME, 'username')
-            user_name.send_keys('01046692893')
-            pw = self.drv.find_elementis(By.NAME, 'password')
-            pw.send_keys('ideyedi318!')
+            user_name[0].send_keys('01046692893')
+            pw = self.drv.find_elements(By.NAME, 'password')
+            pw[0].send_keys('ideyedi318!')
+
+            btn_login = self.drv.find_elements(By.CLASS_NAME, 'sqdOP')
+            btn_login[0].click()
+            # Test
+            time.sleep(3)
 
         except Exception:
             traceback.print_exc()
@@ -137,6 +141,6 @@ class InstaCrawler:
 
 
 if __name__ == '__main__':
-    unittest = InstaCrawler('https://www.instagram.com/p/CfVx-zFvcg7')
-    unittest.extract_image()
+    unittest = InstaCrawler('https://www.instagram.com')
+    unittest.login()
 
