@@ -8,26 +8,32 @@ import requests
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from .detect_arch import detect_machine as dm
 
+
 class InstaCrawler:
+    """
+    Instagram Crawler
+    링크를 전달받으면 해당 링크에 포스팅된 이미지를 추출하는 기능으로 구성된 클래스
+    """
     #path_drv = '/usr/bin/safaridriver'
     # Safari Automation으로 인스타 접근할 경우 white blank만 출력되는 모습을 보인다.
     # Chrome webdriver를 이용, Incognito mode를 사용하여 접근하도록 한다.
     # util로 m1과 intel을 구분하는 기능을 추가해야겠다.
     # 와 주석도 인공지능으로 자동으로 작성해줘? 미쳤네..
     # 더 좋은 경로 정리 코드가 있으면 좋을듯..
-    '''
-    True: x86
-    False: ETC
-    '''
-    if dm:
-        path_drv = './api/util/chromedriver'
-    else:
-        path_drv = './api/util/chromedriver_m1'
-
     def __init__(self, url):
+        '''
+        True: x86
+        False: ETC
+        '''
+        if dm:
+            self.path_drv = './api/util/chromedriver'
+        else:
+            self.path_drv = './api/util/chromedriver_m1'
+
         # 상속할 경우 중복을 줄이기 위한 방법
         # 단 여기서는 상속하지 않기 때문에 의미없음
         #super().__init__(url)
@@ -79,18 +85,30 @@ class InstaCrawler:
             pw[0].send_keys('ideyedi318!')
 
             btn_login = self.drv.find_elements(By.CLASS_NAME, 'sqdOP')
-            btn_login[0].click()
+            # .. css 객체가 3개가 잡히네??
+            print(f'Login btn [{len(btn_login)}]: {btn_login}')
+            btn_login[1].click()
+            #btn_login[0].send_keys(Keys.ENTER)
+
+            time.sleep(5)
+
+            btn_save_info = self.drv.find_elements(By.CLASS_NAME, 'sqdOP')
+            print(f'Save_info btn [{len(btn_save_info)}]: {btn_save_info}')
+            btn_save_info[1].click()
+
             # Test
-            time.sleep(3)
+            time.sleep(10)
 
         except Exception:
             traceback.print_exc()
 
         finally:
-            self.drv.quit()
+            #self.drv.quit()
+            print(f'Session 유지?')
 
         return 0
 
+    # Github codepliot automation
     def get_html(self):
         response = self.session.get(self.url)
         return response.text
