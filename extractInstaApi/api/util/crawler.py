@@ -38,6 +38,7 @@ class InstaCrawler:
         # 단 여기서는 상속하지 않기 때문에 의미없음
         #super().__init__(url)
         self.url = url
+        self.instagram_link = 'https://www.instagram.com'
         print(os.getcwd())
 
         self.headers = {
@@ -75,12 +76,12 @@ class InstaCrawler:
 
     def login(self):
         try:
-            self.drv.get(self.url)
+            self.drv.get(self.instagram_link)
             time.sleep(1)
             print(f'test {self.url}')
 
             user_name = self.drv.find_elements(By.NAME, 'username')
-            user_name[0].send_keys('01046692893')
+            user_name[0].send_keys('eyedi318@hanyang.ac.kr')
             pw = self.drv.find_elements(By.NAME, 'password')
             pw[0].send_keys('ideyedi318!')
 
@@ -88,7 +89,6 @@ class InstaCrawler:
             # .. css 객체가 3개가 잡히네??
             print(f'Login btn [{len(btn_login)}]: {btn_login}')
             btn_login[1].click()
-            #btn_login[0].send_keys(Keys.ENTER)
 
             time.sleep(5)
 
@@ -96,15 +96,21 @@ class InstaCrawler:
             print(f'Save_info btn [{len(btn_save_info)}]: {btn_save_info}')
             btn_save_info[1].click()
 
+            # session 유지때문에 하나의 엔드포인트에서 처리해야할까..
+            self.drv.get(self.url)
+
+            src_sets = self.drv.find_elements(By.CSS_SELECTOR, 'srcset')
+            print(src_sets)
+            print(src_sets[0].text)
             # Test
-            time.sleep(10)
+            time.sleep(20)
 
         except Exception:
             traceback.print_exc()
 
         finally:
             #self.drv.quit()
-            print(f'Session 유지?')
+            print(f'Session 유지?, api 형태라.. http 연결 끊기면 연결 세션도 유지 안될꺼 같은데')
 
         return 0
 

@@ -18,7 +18,7 @@ class DemoApi(views.APIView):
         #url = request.GET.get('insta_link', default=None)
         #print(url)
 
-        clr = crawler.InstaCrawler(self.instagram_link)
+        clr = crawler.InstaCrawler(self.test_link)
         clr.login()
         #clr.extract_image()
 
@@ -27,4 +27,13 @@ class DemoApi(views.APIView):
     # APIView POST
     def post(self, request):
         return JsonResponse({'post': self.url})
+
+
+class ViewGrpc(views.APIView):
+
+    def __init__(self):
+        pass
+
+    def get(self):
+        return 0
 
