@@ -3,6 +3,11 @@
 
 .DS_Store
 
+# image 
+*.png
+*.jpeg
+*.jpg
+
 **/settings.json
 **/db.sqlite3
 **/*.pyc

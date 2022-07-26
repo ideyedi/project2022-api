@@ -5,6 +5,7 @@ import time
 import traceback
 import logging
 import requests
+import urllib
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -99,10 +100,22 @@ class InstaCrawler:
             # session 유지때문에 하나의 엔드포인트에서 처리해야할까..
             self.drv.get(self.url)
 
-            src_sets = self.drv.find_elements(By.CSS_SELECTOR, 'srcset')
-            print(src_sets)
-            print(src_sets[0].text)
+            time.sleep(5)
+            src_sets = self.drv.find_elements(By.TAG_NAME, 'img')
+
+            print('#' * 20)
+            print(src_sets, len(src_sets))
+            print(src_sets[0].get_attribute('srcset'))
+
             # Test
+            text_srcset = src_sets[0].get_attribute('srcset')
+            image_urls = text_srcset.split(' ')
+            print(image_urls)
+
+            #self.drv.get(image_urls[0])
+            #time.sleep(10)
+
+            urllib.request.urlretrieve(image_urls[0], 'test.png')
             time.sleep(20)
 
         except Exception:
